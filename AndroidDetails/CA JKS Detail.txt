@@ -1,0 +1,6 @@
+JKS file name
+CA
+Password: CA12345
+
+Alias Name: CA
+Alias Password: CA12345

@@ -1,0 +1,14 @@
+// import * as sessionAsync from "../../AsyncStorage/sessionAsync";
+
+// get the data in background while next line will be execute
+// sessionAsync.setPrefData(sessionAsync.SESSION_NAME.USER_INFO,JSON.stringify({userId:10}), (data, response) => {
+//             // console.log("Set Data: ",data,response);
+//         })
+
+
+
+// get the data in background while next line will be execute
+// sessionAsync.getPrefData(sessionAsync.SESSION_NAME.USER_INFO, (data, response) => {
+//             // console.log("Get Data: ", data, response);
+//         })
+
