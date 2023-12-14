@@ -1,6 +1,13 @@
 import {StyleSheet, Platform} from 'react-native';
 import { borderRadius, colors, fontSizes, opacity, paddings } from '../utils/theme';
 
+/**
+ * This is common Styles files includes screen/component/view styles.
+ * You can reuse mentioned styles in any screen using this file.
+ * 
+ * @returns JSON Objext of all Styles with key-value pair
+ */
+
 const CommonStyle = StyleSheet.create({
   safeAreaViewStyle:{
     flex:1,

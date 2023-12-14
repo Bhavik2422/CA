@@ -10,6 +10,11 @@ import NoRecFound from "../../commonComponent/NoRecFound";
 import { getKey } from "../../utils/GeneralFunction";
 import CustomHeader from "../../commonComponent/CustomHeader";
 
+/**
+ * This is the screen shows when user click on product items.
+ * 
+ * @returns Product detail screen component
+ */
 const ProductDetail = () => {
 
     const navigation = useNavigation();
@@ -17,6 +22,13 @@ const ProductDetail = () => {
 
     const [item, setItem] = useState({});
 
+    /**
+     * This use effect will be called on changes of parameters passed from parent screen.
+     * This will set the item details stats
+     * 
+     * @returns while destoring the screen it will empty the searched item and search state
+     * 
+     */
     useEffect(()=>{
         // console.log("params: "+JSON.stringify(route.params))
         setItem(route.params?.items)
@@ -25,6 +37,7 @@ const ProductDetail = () => {
         }
     },[route.params])
 
+    /** UI will be render when screen init or while state changes */
     return(
         <SafeAreaView style={[CommonStyle.safeAreaViewStyle]}> 
             <CustomNavBar />

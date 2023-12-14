@@ -1,3 +1,8 @@
+/**
+ * This is common String files includes screen name for navigation, and general string used in application.
+ * 
+ * @returns JSON Objext of all String with key-value pair
+ */
 export default {
 
     /**

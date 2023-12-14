@@ -2,6 +2,14 @@ import React from "react";
 import { Pressable, Text, View } from "react-native";
 import { borderRadius, colors, fontSizes, paddings } from "../utils/theme";
 
+/**
+ * This is common button UI.
+ * 
+ * @param {label} String 
+ * @param {width} String
+ * @param {onClick} function clickEvent function
+ * @returns Button UI with desire width, label and click event
+ */
 const CommonBtn = ({label, width, onClick}) => {
     return(
         <Pressable onPress={onClick} style={{justifyContent:'center',backgroundColor:colors.colorWhite, borderRadius: borderRadius.BR_10, marginTop: paddings.VSpace_10PX, width: width}}>

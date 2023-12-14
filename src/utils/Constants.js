@@ -1,4 +1,8 @@
-
+/**
+ * This is common constant values used in application, which will never changed.
+ * 
+ * @returns JSON Objext of all constant values with key-value pair
+ */
 export default {
    
 

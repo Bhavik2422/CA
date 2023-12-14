@@ -1,4 +1,5 @@
 /**
+ * Calculation for WP/HP 
  * 
  * width 390 (design view port size in XD)
  * height 844 (design view port size in XD)
@@ -10,13 +11,16 @@
  * 844*?/100 = 10 ::> ? is 1.18
  */
 
-import {Platform} from 'react-native';
-
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from './ResponsiveScreen';
 
+/**
+ * This is common colors used in application at all place
+ * 
+ * @returns JSON Objext of all colors with key-value pair
+ */
 const colors = {
   
     // Used color
@@ -31,6 +35,11 @@ const colors = {
 
 };
 
+/**
+ * This is common font sizes used in application at all place
+ * 
+ * @returns JSON Objext of all font sizes with key-value pair
+ */
 const fontSizes = {
 
   Font_w8: wp(2.06),
@@ -55,6 +64,17 @@ const fontSizes = {
 
 };
 
+/**
+ * This is common spacing used in application at all place
+ * 
+ * String which starts with H means it depeneds on horizontal space or considered base of mobile width pixel
+ * String which starts with V means it depeneds on vertical space or considered base of mobile height pixel
+ * 
+ * String which ends with PX means its value is in pixel
+ * String which ends with PER means its value is in percentage
+ * 
+ * @returns JSON Objext of all spacing with key-value pair
+ */
 const paddings = {
 
   HSpace_1PX: wp(0.26),
@@ -151,10 +171,28 @@ const paddings = {
   
 };
 
+/**
+ * This is common font face used in application at all place
+ * 
+ * Plase setup fonts as per below documents and write name (e.g. OS_BOLD) of that font file as it is in the actual folder without any extention e.g. OpenSans-Bold
+ * 
+ * @returns JSON Objext of all font faces with key-value pair
+ */
 const fontFace = {
 //   OS_BOLD: 'OpenSans-Bold',
 };
 
+/**
+ * This is common opacity used in application at all place
+ * 
+ * String starts with OP means you need to append that after color codes
+ *  e.g. backgroundColor: colors.colorWhite.concate(opacity.OP_35), it will apply 35% opacity to the color
+ * 
+ * String starts with PP means you need to apply opacity as in the property of view
+ *  e.g. opacity: opacity.PP_20, it will apply 20% opacity to the whole view
+ * 
+ * @returns JSON Objext of all opacity with key-value pair
+ */
 const opacity = {
   OP_00 : '0',
   OP_10 : '10',
@@ -174,6 +212,12 @@ const opacity = {
   PP_1_0 : 1.0,
 
 };
+
+/**
+ * This is common borderRadius used in application at all place
+ * 
+ * @returns JSON Objext of all borderRadius with key-value pair
+ */
 
 const borderRadius = {
   BR_1: 1,

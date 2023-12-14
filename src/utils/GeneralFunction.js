@@ -1,5 +1,11 @@
 import * as session from '../asyncStorage/sessionAsync';
 
+/**
+ * This is common function for getting unique key for repetative views.
+ * 
+ * @param {id} Int index/item-id of that repeatative view
+ * @returns unique key in String
+ */
 export const getKey = (id=-1) => {
 
     let key = "";
@@ -12,6 +18,12 @@ export const getKey = (id=-1) => {
 
 }
 
+/**
+ * This is common function for validating entered EMail.
+ * 
+ * @param {email} String 
+ * @returns true/false based on reg-ex email validation
+ */
 export const validateEmail = (email = "") => {
     let isValidate = false;
     
@@ -26,6 +38,10 @@ export const validateEmail = (email = "") => {
     return isValidate;
 }
 
+/**
+ * This is common function for logout user from the application.
+ * It will remove session data.
+ */
 export const logoutFromApp  =()=>{
     session.setPrefData(session.SESSION_NAME.USER_LOGIN, "",(res, data)=>{
        

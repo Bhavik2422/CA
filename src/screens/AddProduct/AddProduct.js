@@ -11,14 +11,29 @@ import CommonBtn from "../../commonComponent/CommonBtn";
 import { paddings } from "../../utils/theme";
 import NetInfo from "@react-native-community/netinfo";
 
+
+/**
+ * This is the screen for adding products
+ * 
+ * @returns Add product screen component
+ */
 const AddProduct = () => {
 
     const navigation = useNavigation();
 
+    /**
+     * This will store the input values for products inserted by user
+     * 
+     */
     const [title, setTitle] = useState('')
     const [price, setPrice] = useState('')
     const [desc, setDesc] = useState('')
 
+    /**
+     * This function will check all the input validations
+     * @returns check weather all the inputs are in formate and then call add product API
+     * 
+     */
     const verifyAddProductInputs = () => {
         if(!(title!=null && title.length>0)){
             Alert.alert(CommonString.APP_NAME,CommonString.errorMsgEnterProductTitle)
@@ -31,6 +46,11 @@ const AddProduct = () => {
         }
     }
 
+    /**
+     * This is main function which is responsible to add products using API call on server end
+     * Also take care if there is no internet connectivity
+     * 
+     */
     const callAddProductAPI = () => {
 
         NetInfo.fetch().then(state => {
@@ -74,9 +94,9 @@ const AddProduct = () => {
             }
         });
 
-        
     }
 
+    /** UI will be render when screen init or while state changes */
     return(
         <SafeAreaView style={[CommonStyle.safeAreaViewStyle]}> 
             <CustomNavBar />

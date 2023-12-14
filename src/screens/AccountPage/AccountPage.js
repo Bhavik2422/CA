@@ -11,13 +11,27 @@ import { logoutFromApp, validateEmail } from "../../utils/GeneralFunction";
 import { ScrollView } from "react-native-gesture-handler";
 import NetInfo from "@react-native-community/netinfo";
 
-
+/**
+ * This is the screen shows user detail if user logged in or shows login page.
+ * If user didn't logged in then he can enter creditional and logged in.
+ * Once user logged in they can add product via home TAB, or they can view user data here.
+ * They can logged out too using Logout button
+ * 
+ * @returns Account tab screen component
+ */
 const AccountPage = () => {
 
+    /** If user login then logged in user data will be stored in this state */
     const [userData, setUserData] = useState({})
+
+    /** Stats for username and passowrd */
     const [userName, setUserName] = useState('kminchelle')
     const [password, setPassword] = useState('0lelplR')
 
+    /**
+     * 
+     * This will get user data from session and stored in the stats
+     */
     useEffect(()=>{
 
         session.getPrefData(session.SESSION_NAME.USER_LOGIN,(data, response)=>{
@@ -33,6 +47,9 @@ const AccountPage = () => {
         }
     },[])
 
+    /**
+     * This function varify user login inputs and call API for login
+     */
     const verifyLoginInputs = () => {
         if(!(userName !=null && userName.length > 0)){
             Alert.alert(CommonString.APP_NAME,CommonString.errorMsgEnterUsername)
@@ -47,6 +64,11 @@ const AccountPage = () => {
         }
     }
 
+     /**
+     * This is main function which is responsible for user login activity
+     * It will call the API and store/changes stats/sessions accordingly
+     * 
+     */
     const callLoginAPI = () => {
 
         NetInfo.fetch().then(state => {
@@ -90,12 +112,21 @@ const AccountPage = () => {
        
     }
 
+    /**
+     * This function changes user data stats and responsible to change component login to 
+     * @param {response} Object User data that need to be store in ssession as well as in local stats 
+     */
     const clearFiledData = (response) => {
         setUserName('')
         setPassword('')
         setUserData(response);
     }
 
+    /** UI will be render when screen init or while state changes 
+     * Depends on user logged in or not it will render 2 UI
+     * One UI is for login activity to log-in user and 
+     * the other UI is for displaying user data after logged in.
+    */
     return(
         <SafeAreaView style={[CommonStyle.safeAreaViewStyle]}>
             <CustomNavBar />

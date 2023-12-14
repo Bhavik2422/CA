@@ -24,11 +24,16 @@ import AddProduct from './src/screens/AddProduct/AddProduct';
 
 
 
-
+/**
+   * This is First navigator used stack navigation
+   *
+   * @returns Stack navigator for Stack style navigation
+   */
 const App = () => {
   
   const Stack = createStackNavigator();
 
+  /** This useeffect restrict the back event in android phone */
   useEffect(() => {
     const backHandler = BackHandler.addEventListener('hardwareBackPress', () => true)
 
@@ -37,6 +42,9 @@ const App = () => {
     }
   }, [])
 
+  /**
+   * Includes stack navigation screens component
+   */
   return (
     <NavigationContainer>
       <Stack.Navigator

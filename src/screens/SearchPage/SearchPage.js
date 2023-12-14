@@ -10,11 +10,28 @@ import { getKey } from "../../utils/GeneralFunction";
 import CommonTextInput from "../../commonComponent/CommonTextInput";
 import NetInfo from "@react-native-community/netinfo";
 
+/**
+ * This is the second tab on the main page, User can search product using this component.
+ * Searched item shown below the search input area.
+ * 
+ * This page include 1 API call of search product query
+ * 
+ * @returns Search screen tab component
+ */
 const SearchPage = () => {
 
     const [searchTerm, setSearchTerm] = useState('');
     const [json, setJSON] = useState({});
 
+    /**
+     * this is API call for searching products
+     * 
+     * It will check internet connectivity and act accordingly.
+     * if there is any result for searched item it will shows under the search area.
+     * 
+     * set states of searched items
+     * 
+     */
     const callProductSearchAPI = () => {
 
         NetInfo.fetch().then(state => {
@@ -47,6 +64,11 @@ const SearchPage = () => {
        
     }
 
+    /**
+     * this use effect will be called on focus changes/creating/destoy the screen
+     * 
+     * @returns while destoring the screen it will empty the searched item and search state
+     */
     useEffect(()=>{
         return () => {
             setSearchTerm('')
@@ -54,10 +76,7 @@ const SearchPage = () => {
         }
     },[])
 
-    
-
-    
-
+    /** UI will be render when screen init or while state changes */
     return(
         <SafeAreaView style={[CommonStyle.safeAreaViewStyle]}>
             <CustomNavBar />

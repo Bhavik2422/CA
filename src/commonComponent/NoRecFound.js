@@ -2,6 +2,12 @@ import React from "react";
 import { Text, View } from "react-native";
 import CommonStyle from "../styles/CommonStyle";
 
+/**
+ * This is common function to set if there is nothing to explore,
+ * 
+ * @param {message} String message to be display
+ * @return Component which will set message if there is nothing to explore.
+ */
 const NoRecFound = ({message}) => {
     return(
         <View style={[CommonStyle.NoRecFoundMain]}>

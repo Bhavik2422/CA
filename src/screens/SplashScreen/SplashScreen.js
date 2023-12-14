@@ -5,6 +5,12 @@ import { useNavigation } from "@react-navigation/native";
 import CustomNavBar from "../../commonComponent/CustomNavBar";
 import CommonString from "../../styles/CommonString";
 
+/**
+ * This is the first screen shown to the user
+ * After 2 second of delay user will land on the home screen
+ * 
+ * @returns Splash screen Component
+ */
 const SplashScreen = () => {
 
     const navigation = useNavigation();

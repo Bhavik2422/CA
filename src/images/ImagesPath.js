@@ -1,4 +1,10 @@
 
+/**
+ * This is common local image assest file in which you can write local image assest
+ * and use it anywhere with same name.
+ * 
+ * @returns all the local image assest
+ */
 export default {
     
     IC_HOME_SELECTED : require("./ic_home_selected.png"),
