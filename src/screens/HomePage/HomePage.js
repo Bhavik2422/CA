@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, View, Text, ScrollView, FlatList, Image, Alert } from "react-native";
+import { SafeAreaView, View, Text, ScrollView, FlatList, Image, Alert, ActivityIndicator } from "react-native";
 import CommonStyle from "../../styles/CommonStyle";
 import CustomNavBar from "../../commonComponent/CustomNavBar";
-import { paddings } from "../../utils/theme";
+import { colors, opacity, paddings } from "../../utils/theme";
 import CommonString from "../../styles/CommonString";
 import NoRecFound from "../../commonComponent/NoRecFound";
 import ProductListItem from "../../commonComponent/ProductListItem";
-import { getKey } from "../../utils/GeneralFunction";
+import { API_NAME, getApiURL, getKey } from "../../utils/GeneralFunction";
 import { useNavigation } from "@react-navigation/native";
 import CustomHeader from "../../commonComponent/CustomHeader";
 import ImagesPath from "../../images/ImagesPath";
 import * as session from '../../asyncStorage/sessionAsync';
 import NetInfo from "@react-native-community/netinfo";
+import CustomLoader from "../../commonComponent/CustomLoader";
+import ActivityIndicatorComponent from "../../commonComponent/ActivityIndicatorComponent";
+import CommonBtn from "../../commonComponent/CommonBtn";
+import Constants from "../../utils/Constants";
 
 /** This variable restrict 2 API call at a time */
 var apiCallStart = false;
@@ -27,9 +31,17 @@ const HomePage = () => {
 
     /** If user login then logged in user data will be stored in this state */
     const [userData, setUserData] = useState({})
+
+    /** This variable used to control the loader on the screen */
+    const [loader, setLoader] = useState(false);
     
-    /** Product list API response and pagination logic works here */
-    var [apiResponse, setAPIResponse] = useState({pageNumber: 0, limit: 20, productList: []})
+    /** Product list API response and pagination logic works here 
+     * pageNumber => current page number
+     * limit => number of records contain in the response
+     * pageNumber*limit => number of records skip from top of the list
+     * total => total number of records available for pagination
+    */
+    var [apiResponse, setAPIResponse] = useState({pageNumber: 0, limit: 20, productList: [], total: 1})
 
      /**
      * This will call the first API of product list with page number 1
@@ -50,9 +62,9 @@ const HomePage = () => {
                 }
             })    
 
-            if(!apiCallStart){
-                // console.log("1")
-                let apiURL = `https://dummyjson.com/products?skip=${(apiResponse.pageNumber*apiResponse.limit)}&limit=${apiResponse.limit}`
+            if(!apiCallStart && apiResponse.total > apiResponse.productList.length){
+                console.log("1")
+                let apiURL = getApiURL(API_NAME.GET_ALL_PRODUCTS).concat(`?${Constants.SKIP}=${(apiResponse.pageNumber*apiResponse.limit)}&${Constants.LIMIT}=${apiResponse.limit}`)
                 callProductListAPI(apiURL)
             }
         } catch (error) {
@@ -62,52 +74,67 @@ const HomePage = () => {
 
         return ()=>{
             apiCallStart = false;
-            apiResponse = {pageNumber: 0, limit: 20, productList: []}
+            apiResponse = {pageNumber: 0, limit: 20, productList: [], total: 1}
             setAPIResponse(apiResponse);
         }
     },[])
 
     /** This will call the next page data e.g. page 1 is loaded then it will call page 2 and on wards */
     const callNextPage = () => {
-        if(!apiCallStart){
-            // console.log("2")
-            let apiURL = `https://dummyjson.com/products?skip=${(apiResponse.pageNumber*apiResponse.limit)}&limit=${apiResponse.limit}`
+        console.log("apiResponse: "+JSON.stringify(apiResponse))
+        if(!apiCallStart && apiResponse.total > apiResponse.productList.length){
+            console.log("2")
+            let apiURL =  getApiURL(API_NAME.GET_ALL_PRODUCTS).concat(`?${Constants.SKIP}=${(apiResponse.pageNumber*apiResponse.limit)}&${Constants.LIMIT}=${apiResponse.limit}`)
             callProductListAPI(apiURL)
         }
     }
 
     /**
      * This is main function which is responsible to make changes of stats of product list regards on what it is getting from server as a reponse
-     * @param {api} String API url with page number and limit in query string formate 
+     * @param {String} api API url with page number and limit in query string formate 
      */
     const callProductListAPI = (api) => {
+        setLoader(true)
         NetInfo.fetch().then(state => {
             if(state.isConnected){
                 apiCallStart = true;
-                // console.log("api : "+api)
+                console.log("api : "+api)
                 fetch(api)
                     .then(res => res.json())
                     .then(json => {
-                        // console.log(json)
+                        console.log(json)
                         apiResponse = {
                             pageNumber : ++apiResponse.pageNumber,
                             limit:20,
-                            productList: apiResponse.productList.concat(json.products)
+                            productList: apiResponse.productList.concat(json.products),
+                            total: json.total
                         }
                         setAPIResponse(apiResponse);
                     }).catch((err) => {
                         
-                        // console.log("ERROR : "+JSON.stringify(err))
-    
+                        console.log("ERROR : "+JSON.stringify(err))
+                        apiResponse = {
+                            pageNumber : apiResponse.pageNumber,
+                            limit:20,
+                            productList: apiResponse.productList,
+                            total: 0
+                        }
+                        setAPIResponse(apiResponse);
                     }).finally(() => {
-                        // conssole.log("FINALLY : "+JSON.stringify(apiResponse))
+                        console.log("FINALLY : "+JSON.stringify(apiResponse))
                         apiCallStart = false;
+                        setLoader(false);
                     })
             }else{
+                setLoader(false);
                 Alert.alert(CommonString.APP_NAME, CommonString.interConnectionIssue,[
                     {
                         text: CommonString.lblRetry,
-                        onPress: () => callProductListAPI(api),
+                        onPress: () => {
+                            apiResponse.total > apiResponse.productList.length
+                                ? callProductListAPI(api)
+                                : null
+                        },
                         style: 'default',
                     }
                 ])
@@ -138,18 +165,51 @@ const HomePage = () => {
                     ? <CustomHeader title={''} isRightIcon rightIcon={ImagesPath.IC_ADD_PRODUCT} rightIconClick={() => {addProduct()}}/>
                     : null
             }
-            <FlatList
-                data={apiResponse.productList}
-                renderItem={({index, item}) => 
-                   <ProductListItem index={getKey(index)} item={item} onItemClick={gotoDetails} />
+            <View style={{flex:1, backgroundColor:colors.colorWhite}}>
+                {
+                    loader && apiResponse.pageNumber == 0
+                        ? <CustomLoader />
+                        :
+                                <FlatList
+                                    contentContainerStyle={{paddingBottom: paddings.HSpace_15PX}}
+                                    data={apiResponse.productList}
+                                    renderItem={({index, item}) => 
+                                        <ProductListItem index={getKey(index)} item={item} onItemClick={gotoDetails} />
+                                    }
+                                    keyExtractor={(index, item) => getKey(item.id)}
+                                    ListEmptyComponent={
+                                        <View style={{marginVertical: paddings.HSpace_15PX, justifyContent:'center'}}>
+                                            <NoRecFound message={CommonString.msgNoProductFound}/>
+                                            <View style={{alignSelf:'center'}}>
+                                                <CommonBtn
+                                                    label={CommonString.lblRetry}
+                                                    width={paddings.HSpace_20_PER}
+                                                    onClick={()=>{
+                                                        apiResponse = {
+                                                            pageNumber : apiResponse.pageNumber,
+                                                            limit:20,
+                                                            productList: apiResponse.productList,
+                                                            total: 1
+                                                        }
+                                                        setAPIResponse(apiResponse);
+                                                        callNextPage()
+                                                    }}  
+                                                />
+                                            </View>
+                                        </View>
+                                    }
+                                    ListFooterComponent={
+                                        apiResponse.pageNumber > 0 && apiResponse.total > apiResponse.productList.length
+                                            ?
+                                                <ActivityIndicatorComponent />
+                                            : null
+                                    }
+                                    onEndReachedThreshold={0.5}
+                                    onEndReached={callNextPage}
+                                />
+                            
                 }
-                keyExtractor={(index, item) => getKey(item.id)}
-                ListEmptyComponent={
-                    <NoRecFound message={CommonString.msgNoProductFound}/>
-                }
-                onEndReachedThreshold={0.9}
-                onEndReached={callNextPage}
-            />
+            </View>
         </SafeAreaView>
     )
 

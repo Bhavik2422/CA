@@ -5,9 +5,9 @@ import CommonStyle from "../styles/CommonStyle";
 /**
  * This is common UI for product listing item
  * 
- * @param {index} String unique key for each items in a flatlist
- * @param {item} json json data to be display in this rendered UI
- * @param {onItemClick} function callback function for item click
+ * @param {String} index unique key for each items in a flatlist
+ * @param {Object} item json data to be display in this rendered UI
+ * @param {Function} onItemClick callback function for item click
 
  * @returns this will render the item UI for each products in a flatlist
  */
@@ -18,7 +18,7 @@ const ProductListItem = ({index, item, onItemClick}) => {
         <Pressable key={index} style={[CommonStyle.productItemSpace]} onPress={() => {
             onItemClick(item)
         }}>
-            <Image style={[CommonStyle.productImageWH]} resizeMode="contain" source={{uri: item.thumbnail}}/>
+            <Image style={[CommonStyle.productImageWH]} resizeMode="cover" source={{uri: item.thumbnail}}/>
             <Text style={[CommonStyle.productItemText]}>{item.title}</Text>
         </Pressable>
     )

@@ -6,19 +6,19 @@ import { colors, fontSizes, paddings } from "../utils/theme";
 /**
  * This is Common header for any of Screen
  * 
- * @param {title} String Header text for the screen
- * @param {leftIcon} String Left icon local image assest
- * @param {isLeftIcon} truefalse is left icon render
- * @param {isRightIcon} String Right icon local image assest
- * @param {rightIcon} truefalse is right icon render
- * @param {leftIconClick} function left icon click callback function
- * @param {rightIconClick} function right icon click callback function
+ * @param {String} title  Header text for the screen
+ * @param {String} leftIcon Left icon local image assest
+ * @param {Boolean} isLeftIcon is left icon render
+ * @param {String} isRightIcon Right icon local image assest
+ * @param {Boolean} rightIcon is right icon render
+ * @param {Function} leftIconClick left icon click callback function
+ * @param {Function} rightIconClick right icon click callback function
  * 
  * @returns Header UI with desire icons and title will be return
  */
 const CustomHeader = ({title, leftIcon, isLeftIcon, isRightIcon, rightIcon, leftIconClick, rightIconClick}) => {
     return(
-        <View style={[{flexDirection:'row',justifyContent:'center', margin: paddings.HSpace_7_5PX}]}>
+        <View style={[CommonStyle.headerMain, {flexDirection:'row'}]}>
             <Pressable style={{alignSelf:'center'}} onPress={() => {isLeftIcon ? leftIconClick() : null}}>
                 {
                     isLeftIcon

@@ -11,10 +11,10 @@ export const SESSION_NAME = {
    USER_LOGIN: 'userLogin',
 }
 
-/* This is the function which return the session value according to the session name passed in it.
-    This is async function.
-    @Param sessionName: SESSION_NAME.#sessionName#
-    @param cb: Callback function in which you get the response (String formate) with status #RESPONSE_TYPE.TYPE#
+/**  This is the function which return the session value according to the session name passed in it.
+ * This is async function.
+ * @param {String} sessionName SESSION_NAME.#sessionName#
+ * @param cb Callback function in which you get the response (String formate) with status #RESPONSE_TYPE.TYPE#
 */
 export const getPrefData = (sessionName, cb) => {
     try{
@@ -35,12 +35,12 @@ export const getPrefData = (sessionName, cb) => {
     }
 }
 
-/*  This is the function which return the session value according to 
-    the session name passed in it and store that session.
-    This is async function.
-    @Param sessionName: SESSION_NAME.#sessionName#
-    @Param sessionData: data in string formate which you want to store
-    @param cb: Callback function in which you get the response with status #RESPONSE_TYPE.TYPE#
+/** This is the function which return the session value according to 
+ * the session name passed in it and store that session.
+ * This is async function.
+ * @param {String} sessionName: SESSION_NAME.#sessionName#
+ * @param {String} sessionData: data in string formate which you want to store
+ * @param {Function} cb: Callback function in which you get the response with status #RESPONSE_TYPE.TYPE#
 */
 export const setPrefData = (sessionName, sessionData, cb) => {
 

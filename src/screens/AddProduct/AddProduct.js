@@ -8,8 +8,11 @@ import ImagesPath from "../../images/ImagesPath";
 import { useNavigation } from "@react-navigation/native";
 import CommonTextInput from "../../commonComponent/CommonTextInput";
 import CommonBtn from "../../commonComponent/CommonBtn";
-import { paddings } from "../../utils/theme";
+import { colors, paddings } from "../../utils/theme";
 import NetInfo from "@react-native-community/netinfo";
+import ActivityIndicatorComponent from "../../commonComponent/ActivityIndicatorComponent";
+import Constants from "../../utils/Constants";
+import { API_NAME, getApiURL } from "../../utils/GeneralFunction";
 
 
 /**
@@ -27,7 +30,9 @@ const AddProduct = () => {
      */
     const [title, setTitle] = useState('')
     const [price, setPrice] = useState('')
-    const [desc, setDesc] = useState('')
+
+    /** This variable used to control the loader on the screen */
+    const [loader, setLoader] = useState(false);
 
     /**
      * This function will check all the input validations
@@ -52,10 +57,11 @@ const AddProduct = () => {
      * 
      */
     const callAddProductAPI = () => {
+        setLoader(true)
 
         NetInfo.fetch().then(state => {
             if(state.isConnected){
-                fetch('https://dummyjson.com/products/add', {
+                fetch(getApiURL(API_NAME.ADD_PRODUCT_API), {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -81,9 +87,10 @@ const AddProduct = () => {
     
                 })
                 .finally(()=>{
-    
+                    setLoader(false)
                 });
             }else{
+                setLoader(false)
                 Alert.alert(CommonString.APP_NAME, CommonString.interConnectionIssue,[
                     {
                         text: CommonString.lblRetry,
@@ -101,7 +108,7 @@ const AddProduct = () => {
         <SafeAreaView style={[CommonStyle.safeAreaViewStyle]}> 
             <CustomNavBar />
             <CustomHeader title={CommonString.lblAddProduct} isLeftIcon leftIcon={ImagesPath.IC_BACK_WHITE} leftIconClick={() => {navigation.goBack()}}/>
-            <View>
+            <View style={{backgroundColor:colors.colorWhite, flex:1}}>
                 <CommonTextInput
                     label={CommonString.lblTitleProduct}
                     defaultValue={title}
@@ -121,13 +128,18 @@ const AddProduct = () => {
                 />
 
                 <View style={{alignSelf:'center'}}>
-                    <CommonBtn
-                        label={CommonString.lblAdd}
-                        width={paddings.HSpace_20_PER}
-                        onClick={()=>{
-                            verifyAddProductInputs()
-                        }}  
-                    />
+                    {
+                        loader
+                            ? <ActivityIndicatorComponent />
+                            : 
+                                <CommonBtn
+                                    label={CommonString.lblAdd}
+                                    width={paddings.HSpace_20_PER}
+                                    onClick={()=>{
+                                        verifyAddProductInputs()
+                                    }}  
+                                />
+                    }
                 </View>
 
             </View>

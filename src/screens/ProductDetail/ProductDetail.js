@@ -43,45 +43,49 @@ const ProductDetail = () => {
             <CustomNavBar />
             <CustomHeader title={CommonString.lblProductDetails} isLeftIcon leftIcon={ImagesPath.IC_BACK_WHITE} leftIconClick={() => {navigation.goBack()}}/>
             
-            <ScrollView>
-                <FlatList
-                    data={item.images}
-                    horizontal
-                    scrollEnabled
-                    renderItem={({index, item}) => 
-                        <View style={{backgroundColor:colors.colorWhite}}>
-                            <Image resizeMode="center" style={[CommonStyle.productDetailImageWH]} source={{uri: item}}/>
-                        </View>
-                    }
-                    keyExtractor={(index, item) => getKey(index)}
-                    ListEmptyComponent={
-                        <NoRecFound message={CommonString.msgNoImagesAvailable}/>
-                    }
-                />
-                <View style={[CommonStyle.productDetailMainTags]}>
-                    <Text style={[CommonStyle.productDetailTextLbl, {flex:1.6}]}>{CommonString.lblTitle}{" : "}<Text style={[CommonStyle.productDetailTextLblExt]}>{item.title}</Text></Text>
-                    <Text style={[CommonStyle.productDetailTextLbl, {flex:0.7}]}>{CommonString.lblRating}{" : "}<Text style={[CommonStyle.productDetailTextLblExt]}>{item.rating}</Text></Text>
-                    <Text style={[CommonStyle.productDetailTextLbl, {flex:0.7}]}>{CommonString.lblStock}{" : "}<Text style={[CommonStyle.productDetailTextLblExt]}>{item.stock}</Text></Text>
-                </View>
-                
-                <View style={[CommonStyle.productDetailMainTags]}>
-                    <Text  style={[CommonStyle.productDetailTextLbl, {flex:1}]}>{CommonString.lblCategory}{" : "}<Text style={[CommonStyle.productDetailTextLblExt]}>{item.category}</Text></Text>
-                    <Text  style={[CommonStyle.productDetailTextLbl, {flex:1}]}>{CommonString.lblBrand}{" : "}<Text style={[CommonStyle.productDetailTextLblExt]}>{item.brand}</Text></Text>
-                </View>
-                
-                <View style={[CommonStyle.productDetailMainTags]}>
-                    <Text style={[CommonStyle.productDetailTextLbl, {flex:1},item.discountPercentage > 0 ? CommonStyle.lineThrough : {}]}>{CommonString.lblPrice}{" : "}<Text style={[CommonStyle.productDetailTextLblExt,item.discountPercentage > 0 ? CommonStyle.lineThrough : {}]}>{item.price}</Text></Text>
-                    {
-                        item.discountPercentage > 0
-                            ?
-                                <Text  style={[CommonStyle.productDetailTextLbl, {flex:1}]}>{CommonString.lblDiscountPrice}{" : "}<Text style={[CommonStyle.productDetailTextLblExt]}>{item.discountPercentage}</Text></Text>
-                            : null
-                    }
+            <View style={{backgroundColor:colors.colorWhite, flex:1}}>
+                <ScrollView contentContainerStyle={{alignItems:'center'}}>
+                    <FlatList
+                        data={item.images}
+                        horizontal
+                        scrollEnabled
+                        renderItem={({index, item}) => 
+                            <View style={[{paddingStart: index == 0 ? paddings.HSpace_15PX : 0, paddingEnd: paddings.HSpace_15PX, paddingVertical: paddings.HSpace_15PX}]}>
+                                <Image resizeMode="contain" style={[CommonStyle.productDetailImageWH]} source={{uri: item}}/>
+                            </View>
+                        }
+                        keyExtractor={(index, item) => getKey(index)}
+                        ListEmptyComponent={
+                            <View style={{alignSelf:'center'}}>
+                                <NoRecFound message={CommonString.msgNoImagesAvailable}/>
+                            </View>
+                        }
+                    />
+                    <View style={[CommonStyle.productDetailMainTags]}>
+                        <Text style={[CommonStyle.productDetailTextLbl, {flex:1.6}]}>{CommonString.lblTitle}{" : "}<Text style={[CommonStyle.productDetailTextLblExt]}>{item.title}</Text></Text>
+                        <Text style={[CommonStyle.productDetailTextLbl, {flex:0.7}]}>{CommonString.lblRating}{" : "}<Text style={[CommonStyle.productDetailTextLblExt]}>{item.rating}</Text></Text>
+                        <Text style={[CommonStyle.productDetailTextLbl, {flex:0.7}]}>{CommonString.lblStock}{" : "}<Text style={[CommonStyle.productDetailTextLblExt]}>{item.stock}</Text></Text>
+                    </View>
                     
-                </View>
+                    <View style={[CommonStyle.productDetailMainTags]}>
+                        <Text  style={[CommonStyle.productDetailTextLbl, {flex:1}]}>{CommonString.lblCategory}{" : "}<Text style={[CommonStyle.productDetailTextLblExt]}>{item.category}</Text></Text>
+                        <Text  style={[CommonStyle.productDetailTextLbl, {flex:1}]}>{CommonString.lblBrand}{" : "}<Text style={[CommonStyle.productDetailTextLblExt]}>{item.brand}</Text></Text>
+                    </View>
+                    
+                    <View style={[CommonStyle.productDetailMainTags]}>
+                        <Text style={[CommonStyle.productDetailTextLbl, {flex:1},item.discountPercentage > 0 ? CommonStyle.lineThrough : {}]}>{CommonString.lblPrice}{" : "}<Text style={[CommonStyle.productDetailTextLblExt,item.discountPercentage > 0 ? CommonStyle.lineThrough : {}]}>{item.price}</Text></Text>
+                        {
+                            item.discountPercentage > 0
+                                ?
+                                    <Text  style={[CommonStyle.productDetailTextLbl, {flex:1}]}>{CommonString.lblDiscountPrice}{" : "}<Text style={[CommonStyle.productDetailTextLblExt]}>{item.discountPercentage}</Text></Text>
+                                : null
+                        }
+                        
+                    </View>
 
-                <Text style={[CommonStyle.productDetailMainTags, CommonStyle.productDetailTextLbl, {marginTop: paddings.VSpace_10PX} ]}>{CommonString.lblDescription}{" : "}<Text style={[CommonStyle.productDetailTextLblExt]}>{item.description}</Text></Text>
-            </ScrollView>
+                    <Text style={[CommonStyle.productDetailMainTags, CommonStyle.productDetailTextLbl, {marginHorizontal: paddings.HSpace_15PX, alignSelf:'flex-start',marginTop: paddings.VSpace_10PX} ]}>{CommonString.lblDescription}{" : "}<Text style={[CommonStyle.productDetailTextLblExt]}>{item.description}</Text></Text>
+                </ScrollView>
+            </View>
         </SafeAreaView>
     );
 

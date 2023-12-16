@@ -24,6 +24,7 @@ import {
 const colors = {
   
     // Used color
+    colorBGMain: '#efefef',
     colorWhite: '#FFFFFF',
     colorRedError:'#fc6767',
     colorBlack: '#000000',

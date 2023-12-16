@@ -14,8 +14,8 @@ const Tab = createBottomTabNavigator();
 /**
  * This is home navigator used and combined to stack navigator to provide tabular navigation
  * 
- * @param {route} Object Used to detect routes and passed parameters
- * @param {navigation} Object Used for navigation through pages 
+ * @param {Object} route Used to detect routes and passed parameters
+ * @param {Object} navigation Used for navigation through pages 
  * 
  * @returns Tab navigator for Tabluar navigation
  */

@@ -7,7 +7,7 @@ import { isEmpty } from "lodash";
 /**
  * This is common function to set navigation bar color in android
  * 
- * @param {color} String on android it is displaying navigation bar color
+ * @param {String} color on android it is displaying navigation bar color
  * @return Component which will set navigation bar color on android.
  */
 const CustomNavBar = ({color}) => {

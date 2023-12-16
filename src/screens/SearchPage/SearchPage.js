@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, View,Text, TextInput, FlatList, Image } from "react-native";
+import { SafeAreaView, View,Text, TextInput, FlatList, Image, Alert } from "react-native";
 import CommonStyle from "../../styles/CommonStyle";
 import CustomNavBar from "../../commonComponent/CustomNavBar";
 import CommonString from "../../styles/CommonString";
 import { colors } from "../../utils/theme";
 import NoRecFound from "../../commonComponent/NoRecFound";
 import ProductListItem from "../../commonComponent/ProductListItem";
-import { getKey } from "../../utils/GeneralFunction";
+import { API_NAME, getApiURL, getKey } from "../../utils/GeneralFunction";
 import CommonTextInput from "../../commonComponent/CommonTextInput";
 import NetInfo from "@react-native-community/netinfo";
+import { useNavigation } from "@react-navigation/native";
+import CustomLoader from "../../commonComponent/CustomLoader";
+import Constants from "../../utils/Constants";
 
 /**
  * This is the second tab on the main page, User can search product using this component.
@@ -20,8 +23,13 @@ import NetInfo from "@react-native-community/netinfo";
  */
 const SearchPage = () => {
 
+    const navigation = useNavigation();
+
     const [searchTerm, setSearchTerm] = useState('');
     const [json, setJSON] = useState({});
+
+    /** This variable used to control the loader on the screen */
+    const [loader, setLoader] = useState(false);
 
     /**
      * this is API call for searching products
@@ -33,10 +41,11 @@ const SearchPage = () => {
      * 
      */
     const callProductSearchAPI = () => {
+        setLoader(true);
 
         NetInfo.fetch().then(state => {
             if(state.isConnected){
-                let apiURL = `https://dummyjson.com/products/search?q=${searchTerm}`
+                let apiURL = getApiURL(API_NAME.SEARCH_PRODUCTS).concat(`?${Constants.QUERY_STRING_SEARCH}=${searchTerm}`)
                 fetch(apiURL)
                     .then(res => res.json())
                     .then(json => {
@@ -49,8 +58,10 @@ const SearchPage = () => {
         
                     }).finally(() => {
                         // console.log("FINALLY : "+JSON.stringify(productList))
+                        setLoader(false);
                     })
             }else{
+                setLoader(false);
                 Alert.alert(CommonString.APP_NAME, CommonString.interConnectionIssue,[
                     {
                         text: CommonString.lblRetry,
@@ -76,35 +87,48 @@ const SearchPage = () => {
         }
     },[])
 
+     /* This function navigate to the detail page of particular product */
+     const gotoDetails = (item) => {
+        // console.log("item: "+JSON.stringify(item));
+        navigation.navigate(CommonString.PRODUCT_DETAIL,{items: item})
+    }
+
     /** UI will be render when screen init or while state changes */
     return(
         <SafeAreaView style={[CommonStyle.safeAreaViewStyle]}>
             <CustomNavBar />
             
-            <CommonTextInput
-                label={CommonString.lblSearch}
-                defaultValue={searchTerm}
-                kbType={"default"}
-                onTextChange={(e) => {
-                    setSearchTerm(e)
-                }}
-                hint={CommonString.lblSearchHint}
-                hintColor={colors.colorTextInActive}
-                returnKey={CommonString.lblGo}
-                returnKeyType={"search"}
-                onSubmitReturnKey={()=>{
-                    callProductSearchAPI()
-                }}
-            />
+            <View style={{flex:1, backgroundColor:colors.colorWhite}}>
+                <CommonTextInput
+                    label={CommonString.lblSearch}
+                    defaultValue={searchTerm}
+                    kbType={"default"}
+                    onTextChange={(e) => {
+                        setSearchTerm(e)
+                    }}
+                    hint={CommonString.lblSearchHint}
+                    hintColor={colors.colorTextInActive}
+                    returnKey={CommonString.lblGo}
+                    returnKeyType={"search"}
+                    onSubmitReturnKey={()=>{
+                        callProductSearchAPI()
+                    }}
+                />
 
-            <FlatList
-                data={json.products}
-                renderItem={({index, item}) => <ProductListItem index={getKey(index)} item={item} />}
-                keyExtractor={(index, item) => getKey(item.id)}
-                ListEmptyComponent={()=>
-                    <NoRecFound message={CommonString.msgNoSearchFound}/>
+                {
+                    loader 
+                        ? <CustomLoader />
+                        :
+                            <FlatList
+                                data={json.products}
+                                renderItem={({index, item}) => <ProductListItem index={getKey(index)} item={item} onItemClick={gotoDetails} />}
+                                keyExtractor={(index, item) => getKey(item.id)}
+                                ListEmptyComponent={()=>
+                                    <NoRecFound message={CommonString.msgNoSearchFound}/>
+                                }
+                            />
                 }
-            />
+            </View>
 
         </SafeAreaView>
     )

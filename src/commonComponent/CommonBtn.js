@@ -1,19 +1,20 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
 import { borderRadius, colors, fontSizes, paddings } from "../utils/theme";
+import CommonStyle from "../styles/CommonStyle";
 
 /**
  * This is common button UI.
  * 
- * @param {label} String 
- * @param {width} String
- * @param {onClick} function clickEvent function
+ * @param {String} label  
+ * @param {String} width
+ * @param {Function} onClick clickEvent function
  * @returns Button UI with desire width, label and click event
  */
-const CommonBtn = ({label, width, onClick}) => {
+const CommonBtn = ({label, width, onClick, marginTop}) => {
     return(
-        <Pressable onPress={onClick} style={{justifyContent:'center',backgroundColor:colors.colorWhite, borderRadius: borderRadius.BR_10, marginTop: paddings.VSpace_10PX, width: width}}>
-            <Text style={{alignSelf:'center',fontSize: fontSizes.Font_w12, color: colors.colorNavBar, marginHorizontal: paddings.HSpace_10PX, marginVertical: paddings.VSpace_10PX}}>{label}</Text>
+        <Pressable onPress={onClick} style={[CommonStyle.customBtnMain, {width: width == undefined ? paddings.HSpace_20_PER: width, marginTop: marginTop==undefined ? paddings.HSpace_15PX : marginTop}]}>
+            <Text style={[CommonStyle.customBtnText]}>{label}</Text>
         </Pressable>
     )
 }

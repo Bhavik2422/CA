@@ -19,4 +19,6 @@ export default {
     IC_BACK_WHITE : require("./ic_back_white.png"),
 
     IC_ADD_PRODUCT: require("./ic_add_product.png"),
+
+    IC_LOGOUT: require("./ic_logout.png"),
 }

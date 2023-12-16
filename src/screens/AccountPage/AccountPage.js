@@ -7,9 +7,14 @@ import CommonTextInput from "../../commonComponent/CommonTextInput";
 import CommonString from "../../styles/CommonString";
 import { colors, paddings } from "../../utils/theme";
 import CommonBtn from "../../commonComponent/CommonBtn";
-import { logoutFromApp, validateEmail } from "../../utils/GeneralFunction";
+import { API_NAME, getApiURL, getKey, getLoginAPI, logoutFromApp, validateEmail } from "../../utils/GeneralFunction";
 import { ScrollView } from "react-native-gesture-handler";
 import NetInfo from "@react-native-community/netinfo";
+import CustomHeader from "../../commonComponent/CustomHeader";
+import ImagesPath from "../../images/ImagesPath";
+import CustomLoader from "../../commonComponent/CustomLoader";
+import ActivityIndicatorComponent from "../../commonComponent/ActivityIndicatorComponent";
+import Constants from "../../utils/Constants";
 
 /**
  * This is the screen shows user detail if user logged in or shows login page.
@@ -27,6 +32,9 @@ const AccountPage = () => {
     /** Stats for username and passowrd */
     const [userName, setUserName] = useState('kminchelle')
     const [password, setPassword] = useState('0lelplR')
+
+    /** This variable used to control the loader on the screen */
+    const [loader, setLoader] = useState(false);
 
     /**
      * 
@@ -70,12 +78,12 @@ const AccountPage = () => {
      * 
      */
     const callLoginAPI = () => {
-
+        setLoader(true);
         NetInfo.fetch().then(state => {
             if(state.isConnected){
-                fetch('https://dummyjson.com/auth/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+                fetch(getApiURL(API_NAME.LOGIN_API), {
+                    method: Constants.POST,
+                    headers: Constants.HEADER_GENERAL,
                     body: JSON.stringify({
                         username: userName,
                         password: password,
@@ -96,9 +104,10 @@ const AccountPage = () => {
                 }).catch(e =>{
         
                 }).finally(()=>{
-        
+                    setLoader(false);
                 })
             }else{
+                setLoader(false);
                 Alert.alert(CommonString.APP_NAME, CommonString.interConnectionIssue,[
                     {
                         text: CommonString.lblRetry,
@@ -114,7 +123,7 @@ const AccountPage = () => {
 
     /**
      * This function changes user data stats and responsible to change component login to 
-     * @param {response} Object User data that need to be store in ssession as well as in local stats 
+     * @param {Object} response  User data that need to be store in ssession as well as in local stats 
      */
     const clearFiledData = (response) => {
         setUserName('')
@@ -130,11 +139,15 @@ const AccountPage = () => {
     return(
         <SafeAreaView style={[CommonStyle.safeAreaViewStyle]}>
             <CustomNavBar />
-            <ScrollView>
+            <ScrollView contentContainerStyle={{justifyContent:'center', flex:1,backgroundColor:colors.colorWhite}}>
                 {
                     userData!=null && Object.keys(userData).length > 0 
                         ?   
-                            <View>
+                            <View style={{flex:1}}>
+                                <CustomHeader isRightIcon rightIcon={ImagesPath.IC_LOGOUT} rightIconClick={()=>{
+                                     logoutFromApp()
+                                     setUserData({})
+                                }} />
                                 {
                                     userData.image != null
                                         ?
@@ -142,22 +155,30 @@ const AccountPage = () => {
                                         : null
                                 }
                                 
+                                <CommonTextInput
+                                    label={CommonString.lblFirstName}
+                                    editable={false}
+                                    defaultValue={userData?.firstName}
+                                />
+
+                                <CommonTextInput
+                                    label={CommonString.lblLastName}
+                                    editable={false}
+                                    defaultValue={userData?.lastName}
+                                />
+
+                                <CommonTextInput
+                                    label={CommonString.lblEmail}
+                                    editable={false}
+                                    defaultValue={userData?.email}
+                                />
+
+                                <CommonTextInput
+                                    label={CommonString.lblGender}
+                                    editable={false}
+                                    defaultValue={userData?.gender}
+                                />
                                 
-                                <Text style={[CommonStyle.productDetailTextLbl, {marginTop: paddings.VSpace_10PX}]}>{CommonString.lblFirstName}{" : "}<Text style={[CommonStyle.productDetailTextLblExt]}>{userData?.firstName}</Text></Text>
-                                <Text style={[CommonStyle.productDetailTextLbl, {marginTop: paddings.VSpace_10PX}]}>{CommonString.lblLastName}{" : "}<Text style={[CommonStyle.productDetailTextLblExt]}>{userData?.lastName}</Text></Text>
-                                <Text style={[CommonStyle.productDetailTextLbl, {marginTop: paddings.VSpace_10PX}]}>{CommonString.lblEmail}{" : "}<Text style={[CommonStyle.productDetailTextLblExt]}>{userData?.email}</Text></Text>
-                                <Text style={[CommonStyle.productDetailTextLbl, {marginTop: paddings.VSpace_10PX}]}>{CommonString.lblGender}{" : "}<Text style={[CommonStyle.productDetailTextLblExt]}>{userData?.gender}</Text></Text>
-                                
-                                <View style={{alignSelf:'center'}}>
-                                    <CommonBtn 
-                                        label={CommonString.lblLogout}
-                                        width={paddings.HSpace_20_PER}
-                                        onClick={()=>{
-                                            logoutFromApp()
-                                            setUserData({})
-                                        }}  
-                                    />
-                                </View>
                             </View>
                         :   
                             <View>
@@ -168,6 +189,7 @@ const AccountPage = () => {
                                     onTextChange={(e) => {
                                         setUserName(e)
                                     }}
+                                    editable={!loader}
                                     hint={CommonString.lblHintUsername}
                                     hintColor={colors.colorTextInActive}
                                 />
@@ -179,19 +201,26 @@ const AccountPage = () => {
                                     onTextChange={(e) => {
                                         setPassword(e)
                                     }}
+                                    editable={!loader}
                                     hint={CommonString.lblHintPassword}
                                     hintColor={colors.colorTextInActive}
                                     isPassword
                                 />
                 
                                 <View style={{alignSelf:'center'}}>
-                                    <CommonBtn 
-                                        label={CommonString.lblLogin}
-                                        width={paddings.HSpace_20_PER}
-                                        onClick={()=>{
-                                            verifyLoginInputs()
-                                        }}  
-                                    />
+                                    {
+                                        loader
+                                            ? <ActivityIndicatorComponent />
+                                            : 
+                                                <CommonBtn 
+                                                    label={CommonString.lblLogin}
+                                                    width={paddings.HSpace_20_PER}
+                                                    onClick={()=>{
+                                                        verifyLoginInputs()
+                                                    }}  
+                                                />
+                                    }
+                                    
                                 </View>
                 
                             </View>

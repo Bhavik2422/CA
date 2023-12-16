@@ -33,7 +33,7 @@ export default {
     /**
      * Splash screen strings
      */
-    lblSplashScreen: 'Welcome to Cognizant!!',
+    lblSplashScreen: 'Welcome to Cognizant assignment!!',
     lblVersion: 'V ',
 
     /**

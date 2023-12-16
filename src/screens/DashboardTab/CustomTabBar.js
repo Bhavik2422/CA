@@ -3,14 +3,15 @@ import { View, Text, Pressable, Image } from "react-native";
 import CommonStyle from "../../styles/CommonStyle";
 import CommonString from "../../styles/CommonString";
 import ImagesPath from "../../images/ImagesPath";
+import { colors, paddings } from "../../utils/theme";
 
 /**
  * This is the Custom made tab for the application
  * This will render 3 tabs 
  * 
- * @param {state} Object To find which tab is active and which is inactive
- * @param {descriptors} Object --
- * @param {navigation} Object used for navigate through pages 
+ * @param {Object} state To find which tab is active and which is inactive
+ * @param {Object} descriptors --
+ * @param {Object} navigation used for navigate through pages 
  * @returns UI component for TAB navigation
  */
 const CustomTabBar = ({ state, descriptors, navigation }) => {
@@ -48,7 +49,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                 onPress={()=>{
                     gotoHome();
                 }} 
-                style={[CommonStyle.bottomBarPressable]}>
+                style={[CommonStyle.bottomBarPressable, CommonStyle.rightSideBorder]}>
 
                 <Image style={[CommonStyle.bottomBarImageStyle]} source={state.index === 0 ? ImagesPath.IC_HOME_SELECTED : ImagesPath.IC_HOME_DESELECTED} />
                 <Text style={[state.index === 0 ? CommonStyle.bottomBarActiveStyle : CommonStyle.bottomBarInActiveStyle,{}]}>{CommonString.lblProducts}</Text>
@@ -58,7 +59,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                 onPress={()=>{
                     gotoSearch();
                 }} 
-                style={[CommonStyle.bottomBarPressable]}>
+                style={[CommonStyle.bottomBarPressable, CommonStyle.rightSideBorder]}>
                 <Image style={[CommonStyle.bottomBarImageStyle]} source={state.index === 1 ? ImagesPath.IC_SEARCH_SELECTED : ImagesPath.IC_SEARCH_DESELECTED} />
                 <Text style={[state.index === 1 ? CommonStyle.bottomBarActiveStyle : CommonStyle.bottomBarInActiveStyle,{}]}>{CommonString.lblSearch}</Text>
             </Pressable>
