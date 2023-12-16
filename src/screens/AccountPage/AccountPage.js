@@ -30,8 +30,8 @@ const AccountPage = () => {
     const [userData, setUserData] = useState({})
 
     /** Stats for username and passowrd */
-    const [userName, setUserName] = useState('kminchelle')
-    const [password, setPassword] = useState('0lelplR')
+    const [userName, setUserName] = useState('')
+    const [password, setPassword] = useState('')
 
     /** This variable used to control the loader on the screen */
     const [loader, setLoader] = useState(false);
@@ -91,7 +91,7 @@ const AccountPage = () => {
                 })
                 .then(res => res.json())
                 .then(response => {
-                    console.log("response:: "+JSON.stringify(response));
+                    // console.log("response:: "+JSON.stringify(response));
                     if(response!=null && Object.keys(response).length>0 && response.id != undefined){
                         session.setPrefData(session.SESSION_NAME.USER_LOGIN, JSON.stringify(response),(res, data)=>{
                             if(res == session.RESPONSE_TYPE.SUCCESS){

@@ -63,7 +63,7 @@ const HomePage = () => {
             })    
 
             if(!apiCallStart && apiResponse.total > apiResponse.productList.length){
-                console.log("1")
+                // console.log("1")
                 let apiURL = getApiURL(API_NAME.GET_ALL_PRODUCTS).concat(`?${Constants.SKIP}=${(apiResponse.pageNumber*apiResponse.limit)}&${Constants.LIMIT}=${apiResponse.limit}`)
                 callProductListAPI(apiURL)
             }
@@ -81,9 +81,9 @@ const HomePage = () => {
 
     /** This will call the next page data e.g. page 1 is loaded then it will call page 2 and on wards */
     const callNextPage = () => {
-        console.log("apiResponse: "+JSON.stringify(apiResponse))
+        // console.log("apiResponse: "+JSON.stringify(apiResponse))
         if(!apiCallStart && apiResponse.total > apiResponse.productList.length){
-            console.log("2")
+            // console.log("2")
             let apiURL =  getApiURL(API_NAME.GET_ALL_PRODUCTS).concat(`?${Constants.SKIP}=${(apiResponse.pageNumber*apiResponse.limit)}&${Constants.LIMIT}=${apiResponse.limit}`)
             callProductListAPI(apiURL)
         }
@@ -98,11 +98,11 @@ const HomePage = () => {
         NetInfo.fetch().then(state => {
             if(state.isConnected){
                 apiCallStart = true;
-                console.log("api : "+api)
+                // console.log("api : "+api)
                 fetch(api)
                     .then(res => res.json())
                     .then(json => {
-                        console.log(json)
+                        // console.log(json)
                         apiResponse = {
                             pageNumber : ++apiResponse.pageNumber,
                             limit:20,
@@ -112,7 +112,7 @@ const HomePage = () => {
                         setAPIResponse(apiResponse);
                     }).catch((err) => {
                         
-                        console.log("ERROR : "+JSON.stringify(err))
+                        // console.log("ERROR : "+JSON.stringify(err))
                         apiResponse = {
                             pageNumber : apiResponse.pageNumber,
                             limit:20,
@@ -121,7 +121,7 @@ const HomePage = () => {
                         }
                         setAPIResponse(apiResponse);
                     }).finally(() => {
-                        console.log("FINALLY : "+JSON.stringify(apiResponse))
+                        // console.log("FINALLY : "+JSON.stringify(apiResponse))
                         apiCallStart = false;
                         setLoader(false);
                     })

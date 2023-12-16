@@ -74,3 +74,7 @@ If you are running on Actual devide then you need to take care of below notes
 This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
 
 ## Step 2.1: If application doesn't work as expected, Please check your all software version and adjust (upgrade/downgrade) libraries version used in Application.
+
+## Step 3: Use below login cred
+Username: kminchelle
+Password: 0lelplR
