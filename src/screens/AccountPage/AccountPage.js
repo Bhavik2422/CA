@@ -15,6 +15,7 @@ import ImagesPath from "../../images/ImagesPath";
 import CustomLoader from "../../commonComponent/CustomLoader";
 import ActivityIndicatorComponent from "../../commonComponent/ActivityIndicatorComponent";
 import Constants from "../../utils/Constants";
+import CustomNavBarWithTS from "../../commonComponent/CustomNavBarWithTS";
 
 /**
  * This is the screen shows user detail if user logged in or shows login page.
@@ -138,7 +139,7 @@ const AccountPage = () => {
     */
     return(
         <SafeAreaView style={[CommonStyle.safeAreaViewStyle]}>
-            <CustomNavBar />
+            <CustomNavBarWithTS />
             <ScrollView contentContainerStyle={{justifyContent:'center', flex:1,backgroundColor:colors.colorWhite}}>
                 {
                     userData!=null && Object.keys(userData).length > 0 

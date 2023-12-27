@@ -9,6 +9,8 @@ import CustomLoader from "../../commonComponent/CustomLoader";
 import Constants from "../../utils/Constants";
 import * as deviceInfo from '../../utils/DeviceInfo'
 import ActivityIndicatorComponent from "../../commonComponent/ActivityIndicatorComponent";
+import config from 'react-native-config';
+import CustomNavBarWithTS from "../../commonComponent/CustomNavBarWithTS";
 
 /**
  * This is the first screen shown to the user
@@ -35,14 +37,16 @@ const SplashScreen = () => {
         }
     }, [])
 
+    const isFrom = config.APP_CONFIG ?? ''
+
     return(
         <SafeAreaView style={[CommonStyle.safeAreaViewStyle]}>
-            <CustomNavBar />
+            <CustomNavBarWithTS />
             <View style={[CommonStyle.splashMainView, {flex:1}]}>
                 <Text style={[CommonStyle.splashWelcomeText]}>{CommonString.lblSplashScreen}</Text>
                 <ActivityIndicatorComponent colorLoader={colors.colorWhite} />
             </View>
-            <Text style={[CommonStyle.splashVersionText]}>{CommonString.lblVersion}{" "}{deviceInfo.getDeviceAppVersion()}</Text>
+            <Text style={[CommonStyle.splashVersionText]}>{CommonString.lblVersion}{ "("+isFrom+")" }{" "}{deviceInfo.getDeviceAppVersion()}</Text>
         </SafeAreaView>
     );
 

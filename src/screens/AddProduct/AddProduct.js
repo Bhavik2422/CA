@@ -13,6 +13,7 @@ import NetInfo from "@react-native-community/netinfo";
 import ActivityIndicatorComponent from "../../commonComponent/ActivityIndicatorComponent";
 import Constants from "../../utils/Constants";
 import { API_NAME, getApiURL } from "../../utils/GeneralFunction";
+import CustomNavBarWithTS from "../../commonComponent/CustomNavBarWithTS";
 
 
 /**
@@ -106,7 +107,7 @@ const AddProduct = () => {
     /** UI will be render when screen init or while state changes */
     return(
         <SafeAreaView style={[CommonStyle.safeAreaViewStyle]}> 
-            <CustomNavBar />
+            <CustomNavBarWithTS />
             <CustomHeader title={CommonString.lblAddProduct} isLeftIcon leftIcon={ImagesPath.IC_BACK_WHITE} leftIconClick={() => {navigation.goBack()}}/>
             <View style={{backgroundColor:colors.colorWhite, flex:1}}>
                 <CommonTextInput

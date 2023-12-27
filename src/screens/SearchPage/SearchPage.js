@@ -12,6 +12,7 @@ import NetInfo from "@react-native-community/netinfo";
 import { useNavigation } from "@react-navigation/native";
 import CustomLoader from "../../commonComponent/CustomLoader";
 import Constants from "../../utils/Constants";
+import CustomNavBarWithTS from "../../commonComponent/CustomNavBarWithTS";
 
 /**
  * This is the second tab on the main page, User can search product using this component.
@@ -96,7 +97,7 @@ const SearchPage = () => {
     /** UI will be render when screen init or while state changes */
     return(
         <SafeAreaView style={[CommonStyle.safeAreaViewStyle]}>
-            <CustomNavBar />
+            <CustomNavBarWithTS />
             
             <View style={{flex:1, backgroundColor:colors.colorWhite}}>
                 <CommonTextInput

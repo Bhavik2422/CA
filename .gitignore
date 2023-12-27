@@ -2,6 +2,15 @@
 **/build/
 !src/**/build/
 node_modules
+node_modules/**
+
+android/app/release
+android/app/release/**
+android/app/debug
+android/app/debug/**
+
+package-lock.json
+
 # Ignore Gradle GUI config
 gradle-app.setting
 

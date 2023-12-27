@@ -9,6 +9,7 @@ import { colors, paddings } from "../../utils/theme";
 import NoRecFound from "../../commonComponent/NoRecFound";
 import { getKey } from "../../utils/GeneralFunction";
 import CustomHeader from "../../commonComponent/CustomHeader";
+import CustomNavBarWithTS from "../../commonComponent/CustomNavBarWithTS";
 
 /**
  * This is the screen shows when user click on product items.
@@ -40,7 +41,7 @@ const ProductDetail = () => {
     /** UI will be render when screen init or while state changes */
     return(
         <SafeAreaView style={[CommonStyle.safeAreaViewStyle]}> 
-            <CustomNavBar />
+            <CustomNavBarWithTS />
             <CustomHeader title={CommonString.lblProductDetails} isLeftIcon leftIcon={ImagesPath.IC_BACK_WHITE} leftIconClick={() => {navigation.goBack()}}/>
             
             <View style={{backgroundColor:colors.colorWhite, flex:1}}>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView, View, Text, ScrollView, FlatList, Image, Alert, ActivityIndicator } from "react-native";
 import CommonStyle from "../../styles/CommonStyle";
 import CustomNavBar from "../../commonComponent/CustomNavBar";
+import CustomNavBarWithTS from '../../commonComponent/CustomNavBarWithTS';
 import { colors, opacity, paddings } from "../../utils/theme";
 import CommonString from "../../styles/CommonString";
 import NoRecFound from "../../commonComponent/NoRecFound";
@@ -159,7 +160,7 @@ const HomePage = () => {
     /** UI will be render when screen init or while state changes */
     return(
         <SafeAreaView style={[CommonStyle.safeAreaViewStyle]}>
-            <CustomNavBar />
+            <CustomNavBarWithTS />
             {
                 userData!=null && Object.keys(userData).length>0
                     ? <CustomHeader title={''} isRightIcon rightIcon={ImagesPath.IC_ADD_PRODUCT} rightIconClick={() => {addProduct()}}/>
