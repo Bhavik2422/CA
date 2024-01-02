@@ -35,6 +35,25 @@ export const getPrefData = (sessionName, cb) => {
     }
 }
 
+/**  This is the function which return the session value according to the session name passed in it.
+ * This is sync function.
+ * @param {String} sessionName SESSION_NAME.#sessionName#
+ * @returns {String} Value: value stored in requested session 
+*/
+export const getPrefDataSync = async (sessionName) => {
+    try {
+        // console.log("a");
+        const value = await AsyncStorage.getItem(sessionName);
+        // console.log("b "+value);
+        
+        return value;
+        
+    } catch (e) {
+        // console.log("d");
+        return e
+    }
+};
+
 /** This is the function which return the session value according to 
  * the session name passed in it and store that session.
  * This is async function.
@@ -63,3 +82,25 @@ export const setPrefData = (sessionName, sessionData, cb) => {
     
 
 }
+
+/** This is the function which stores the session value according to 
+ * the session name passed in it and return boolean stats
+ * This is sync function.
+ * @param {String} sessionName: SESSION_NAME.#sessionName#
+ * @param {String} sessionData: data in string formate which you want to store
+ * 
+ * @returns {Boolean} if stored successfully then return true, else in case of error it returns false
+*/
+export const setPrefDataSync = async (sessionName, sessionData) => {
+    try {
+        // console.log("a");
+        const value = await AsyncStorage.setItem(sessionName, sessionData);
+        // console.log("b ");
+        
+        return true;
+        
+    } catch (e) {
+        // console.log("d"+e);
+        return false
+    }
+};

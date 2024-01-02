@@ -17,6 +17,7 @@ import CustomLoader from "../../commonComponent/CustomLoader";
 import ActivityIndicatorComponent from "../../commonComponent/ActivityIndicatorComponent";
 import CommonBtn from "../../commonComponent/CommonBtn";
 import Constants from "../../utils/Constants";
+import useUserLoginData from "../../CustomHooks/useUserLoginData";
 
 /** This variable restrict 2 API call at a time */
 var apiCallStart = false;
@@ -30,8 +31,12 @@ const HomePage = () => {
 
     const navigation = useNavigation();
 
-    /** If user login then logged in user data will be stored in this state */
-    const [userData, setUserData] = useState({})
+    /** If user login then logged in user data will be stored in this state 
+     * Now user data will be stored in custom hook and 
+     * get user data will be sync operation instead of async operation
+    */
+    // const [userData, setUserData] = useState({})
+    const {userData} = useUserLoginData();
 
     /** This variable used to control the loader on the screen */
     const [loader, setLoader] = useState(false);
@@ -55,13 +60,16 @@ const HomePage = () => {
         apiCallStart = false;
         try {
 
-            session.getPrefData(session.SESSION_NAME.USER_LOGIN,(data, response)=>{
-                if(data == session.RESPONSE_TYPE.SUCCESS){
-                    setUserData(JSON.parse(response));
-                }else{
-                    setUserData({})
-                }
-            })    
+            /**
+             * Due to custom hook 'useUserLoginData' this async operation will be removed from here
+             */
+            // session.getPrefData(session.SESSION_NAME.USER_LOGIN,(data, response)=>{
+            //     if(data == session.RESPONSE_TYPE.SUCCESS){
+            //         setUserData(JSON.parse(response));
+            //     }else{
+            //         setUserData({})
+            //     }
+            // })    
 
             if(!apiCallStart && apiResponse.total > apiResponse.productList.length){
                 // console.log("1")
@@ -126,6 +134,8 @@ const HomePage = () => {
                         apiCallStart = false;
                         setLoader(false);
                     })
+
+                    
             }else{
                 setLoader(false);
                 Alert.alert(CommonString.APP_NAME, CommonString.interConnectionIssue,[
