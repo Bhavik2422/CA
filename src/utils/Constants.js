@@ -1,3 +1,5 @@
+import Config from "react-native-config";
+
 /**
  * This is common constant values used in application, which will never changed.
  * 
@@ -19,7 +21,7 @@ export default {
     /**
      * Ai base url
      */
-    BASE_URL:  'https://dummyjson.com',
+    BASE_URL:  Config.API_URL,
     /**
      * API end points
      */

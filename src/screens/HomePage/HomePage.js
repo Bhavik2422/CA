@@ -103,6 +103,7 @@ const HomePage = () => {
      * @param {String} api API url with page number and limit in query string formate 
      */
     const callProductListAPI = (api) => {
+        Alert.alert(api);
         setLoader(true)
         NetInfo.fetch().then(state => {
             if(state.isConnected){

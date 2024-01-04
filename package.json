@@ -3,6 +3,12 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "android:staging": "react-native run-android variant=stagingdebug ONEPLUSA5000",
+    "android:staging-release": "react-native run-android variant=stagingrelease ONEPLUSA5000",
+    "android:dev": "react-native run-android variant=developmentdebug ONEPLUSA5000",
+    "android:dev-release": "react-native run-android variant=developmentrelease ONEPLUSA5000",
+    "android:prod": "react-native run-android variant=productiondebug ONEPLUSA5000",
+    "android:prod-release": "react-native run-android variant=productionrelease ONEPLUSA5000",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "lint": "eslint .",
